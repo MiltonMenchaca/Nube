@@ -5,7 +5,7 @@ import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 import { products as baseProducts } from '@/data/products';
 
-// Definimos la interfaz Product para corregir el error del linter
+// Define Product interface to fix linter error
 interface Product {
   id?: number;
   _id?: string;
@@ -22,18 +22,18 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Intentamos recuperar productos del localStorage
+    // Try to retrieve products from localStorage
     const loadProducts = () => {
       try {
         const savedProducts = localStorage.getItem('cachedProducts');
         if (savedProducts) {
           setProducts(JSON.parse(savedProducts));
         } else {
-          // Si no hay productos en localStorage, usamos los base
+          // If no products in localStorage, use base products
           setProducts(baseProducts);
         }
       } catch (error) {
-        console.error('Error cargando productos:', error);
+        console.error('Error loading products:', error);
         setProducts(baseProducts);
       } finally {
         setLoading(false);
@@ -42,7 +42,7 @@ export default function ProductsPage() {
     
     loadProducts();
     
-    // Escuchar eventos de actualización de productos
+    // Listen for product update events
     const handleProductUpdated = () => {
       loadProducts();
     };
@@ -58,46 +58,55 @@ export default function ProductsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
-          <p className="text-xl">Cargando productos...</p>
+          <p className="text-xl">Loading products...</p>
         </div>
       </div>
     );
   }
   
+  const productsWithId = products.filter(p => p.id !== undefined || p._id !== undefined);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Nuestros Productos</h1>
+        <h1 className="text-3xl font-bold">Our Products</h1>
         <Link 
           href="/productos/nuevo" 
           className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
         >
-          Nuevo Producto
+          New Product
         </Link>
       </div>
       
-      {products.length === 0 ? (
+      {productsWithId.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-xl text-gray-600">No hay productos disponibles en este momento.</p>
+          <p className="text-xl text-gray-600">No products available at the moment.</p>
           <Link 
             href="/productos/nuevo" 
             className="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg"
           >
-            Agregar tu primer producto
+            Add your first product
           </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {products.map(product => (
-            <ProductCard 
-              key={product.id || product._id}
-              id={product.id || product._id}
-              name={product.name}
-              price={product.price}
-              image={product.image}
-              description={product.description}
-            />
-          ))}
+          {productsWithId.map(product => {
+            const productId = product.id || product._id;
+            // Asegurarse de que productId no sea undefined antes de renderizar ProductCard
+            // Aunque el filtro anterior debería prevenir esto, es una doble comprobación.
+            if (productId === undefined) return null; 
+
+            return (
+              <ProductCard 
+                key={productId}
+                id={productId} // Ahora productId es string | number, no undefined
+                name={product.name}
+                price={product.price}
+                image={product.image}
+                description={product.description}
+              />
+            );
+          })}
         </div>
       )}
     </div>

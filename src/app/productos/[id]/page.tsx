@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { products as baseProducts } from '@/data/products';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 
 // Definir la interfaz Product
 interface Product {
@@ -18,36 +18,40 @@ interface Product {
 }
 
 // Vista detallada del producto como componente cliente
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage() {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [confirmDelete, setConfirmDelete] = useState(false);
   
   useEffect(() => {
-    // Convertir el ID de la URL a número
-    const productId = parseInt(params.id);
-    
-    // Intentar obtener productos del localStorage o usar los base
-    try {
-      const savedProducts = localStorage.getItem('cachedProducts');
-      const productsToUse = savedProducts ? JSON.parse(savedProducts) : baseProducts;
-      const foundProduct = productsToUse.find((p: Product) => p.id === productId);
-      
-      if (foundProduct) {
-        setProduct(foundProduct);
+    if (params && params.id) {
+      const productId = parseInt(params.id);
+      try {
+        const savedProducts = localStorage.getItem('cachedProducts');
+        const productsToUse = savedProducts ? JSON.parse(savedProducts) : baseProducts;
+        const foundProduct = productsToUse.find((p: Product) => p.id === productId);
+        
+        if (foundProduct) {
+          setProduct(foundProduct);
+        } else {
+          // Si no se encuentra aquí, el estado de loading terminará y se mostrará notFound()
+        }
+      } catch (error) {
+        console.error('Error cargando el producto:', error);
+        const foundProduct = baseProducts.find(p => p.id === productId);
+        if (foundProduct) {
+          setProduct(foundProduct);
+        }
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error cargando el producto:', error);
-      // Buscar en productos base como fallback
-      const foundProduct = baseProducts.find(p => p.id === productId);
-      if (foundProduct) {
-        setProduct(foundProduct);
-      }
-    } finally {
+    } else {
+      // Si params.id no está disponible, setLoading(false) se ejecutará y !product activará notFound()
       setLoading(false);
     }
-  }, [params.id]);
+  }, [params]);
   
   // Función para eliminar el producto
   const handleDelete = () => {
@@ -84,7 +88,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     );
   }
   
-  if (!product) {
+  // Si params no está disponible o product es null después de cargar, muestra notFound
+  if (!params || !params.id || !product) {
     return notFound();
   }
 

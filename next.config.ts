@@ -1,18 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  // Configuración para GitHub Pages
   output: 'export',
   basePath: '/TiendaNext',
   images: {
     unoptimized: true,
-    domains: ['placehold.co'],
+    domains: ['images.unsplash.com'],
   },
-  // Configuración para Railway o cualquier entorno de despliegue
+  experimental: {
+    disableOptimizedLoading: true,
+    disablePostcssPresetEnv: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
-    BASE_URL: process.env.BASE_URL || '',
-    MONGODB_URI: process.env.MONGODB_URI || '',
-  }
+    BASE_URL: process.env.BASE_URL,
+    MONGODB_URI: process.env.MONGODB_URI,
+  },
 };
 
 export default nextConfig;

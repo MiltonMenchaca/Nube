@@ -6,46 +6,37 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">TiendaNext</h3>
-            <p className="text-gray-300">
-              Tu tienda en línea favorita con los mejores productos y precios.
+            <h3 className="text-lg font-semibold mb-4">About Us</h3>
+            <p className="text-gray-400">
+              We are dedicated to providing the best tech products at competitive prices.
             </p>
           </div>
-          
           <div>
-            <h3 className="text-lg font-bold mb-4">Enlaces rápidos</h3>
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-white transition duration-300">
-                  Inicio
+                <Link href="/" className="text-gray-400 hover:text-white transition duration-300">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/productos" className="text-gray-300 hover:text-white transition duration-300">
-                  Productos
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacto" className="text-gray-300 hover:text-white transition duration-300">
-                  Contacto
+                <Link href="/productos" className="text-gray-400 hover:text-white transition duration-300">
+                  Products
                 </Link>
               </li>
             </ul>
           </div>
-          
           <div>
-            <h3 className="text-lg font-bold mb-4">Contacto</h3>
-            <address className="not-italic text-gray-300">
-              <p>Av. Universidad 123</p>
-              <p>Guadalajara, Jalisco</p>
-              <p>México</p>
-              <p className="mt-2">Email: info@tiendanext.com</p>
-            </address>
+            <h3 className="text-lg font-semibold mb-4">Contact</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li>Email: info@tiendanext.com</li>
+              <li>Phone: (123) 456-7890</li>
+              <li>Address: 123 Tech Street, Digital City</li>
+            </ul>
           </div>
         </div>
-        
-        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} TiendaNext. Todos los derechos reservados.</p>
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; {new Date().getFullYear()} TiendaNext. All rights reserved.</p>
         </div>
       </div>
     </footer>

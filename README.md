@@ -1,34 +1,34 @@
 # TiendaNext
 
-Tienda en línea desarrollada con Next.js, React y TypeScript.
+Online store developed with Next.js, React, and TypeScript.
 
-## Despliegue en GitHub Pages
+## GitHub Pages Deployment
 
-Este proyecto está configurado para desplegarse automáticamente en GitHub Pages. Para configurar el despliegue:
+This project is configured for automatic deployment to GitHub Pages. To set up the deployment:
 
-1. Ve a la configuración de tu repositorio en GitHub
-2. Navega a "Pages" en el menú lateral
-3. En "Build and deployment":
-   - Source: Selecciona "GitHub Actions"
-   - Branch: Selecciona "main"
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" in the sidebar
+3. Under "Build and deployment":
+   - Source: Select "GitHub Actions"
+   - Branch: Select "main"
 
-## Desarrollo Local
+## Local Development
 
 ```bash
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Ejecutar en modo desarrollo
+# Run in development mode
 npm run dev
 
-# Construir para producción
+# Build for production
 npm run build
 
-# Iniciar servidor de producción
+# Start production server
 npm run start
 ```
 
-## Tecnologías Utilizadas
+## Technologies Used
 
 - Next.js 15.3.0
 - React 19
@@ -36,101 +36,101 @@ npm run start
 - MongoDB
 - Tailwind CSS
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 src/
-├── app/            # Rutas y páginas de la aplicación
-├── components/     # Componentes reutilizables
-├── models/         # Modelos de datos para MongoDB
-├── lib/            # Utilidades y funciones auxiliares
-├── data/           # Datos estáticos/iniciales
-└── middleware.ts   # Middleware de la aplicación
+├── app/            # Application routes and pages
+├── components/     # Reusable components
+├── models/         # MongoDB data models
+├── lib/            # Utilities and helper functions
+├── data/           # Static/initial data
+└── middleware.ts   # Application middleware
 ```
 
-## Características
+## Features
 
-- 📋 Lista de productos
-- 🔍 Detalles de producto individual 
-- ✏️ Edición de productos
-- ❌ Eliminación de productos
-- ➕ Agregar nuevos productos
-- 💾 Almacenamiento en MongoDB
-- 🔄 Modo offline con localStorage como respaldo
+- 📋 Product listing
+- 🔍 Individual product details
+- ✏️ Product editing
+- ❌ Product deletion
+- ➕ Add new products
+- 💾 MongoDB storage
+- 🔄 Offline mode with localStorage backup
 
-## Requisitos previos
+## Prerequisites
 
-- Node.js 18.0.0 o superior
-- MongoDB (para desarrollo local)
-- Cuenta en Railway (para despliegue)
+- Node.js 18.0.0 or higher
+- MongoDB (for local development)
+- Railway account (for deployment)
 
-## Configuración local
+## Local Setup
 
-1. Clona este repositorio
+1. Clone this repository
 ```bash
-git clone <url-de-tu-repositorio>
+git clone <your-repository-url>
 cd my-app
 ```
 
-2. Crea un archivo `.env.local` con las siguientes variables:
+2. Create a `.env.local` file with the following variables:
 ```
 MONGODB_URI=mongodb://localhost:27017/tiendanext
 BASE_URL=http://localhost:3000
 ```
 
-4. Inicia el servidor de desarrollo
+4. Start the development server
 ```bash
 npm run dev
 ```
 
-## Cómo desplegar en Railway
+## How to Deploy to Railway
 
-### Paso 1: Prepara tu proyecto para Railway
+### Step 1: Prepare Your Project for Railway
 
-1. Asegúrate de que tu proyecto esté en GitHub.
-2. Comprueba que tu aplicación funciona correctamente en local.
+1. Ensure your project is on GitHub.
+2. Verify that your application works correctly locally.
 
-### Paso 2: Configura tu proyecto en Railway
+### Step 2: Configure Your Project in Railway
 
-1. Crea una cuenta en [Railway](https://railway.app/) si aún no la tienes.
-2. Haz clic en "New Project" y selecciona "Deploy from GitHub repo".
-3. Selecciona tu repositorio de GitHub.
-4. Railway iniciará automáticamente el despliegue. Espera a que termine.
+1. Create an account on [Railway](https://railway.app/) if you don't have one.
+2. Click "New Project" and select "Deploy from GitHub repo".
+3. Select your GitHub repository.
+4. Railway will automatically start the deployment. Wait for it to complete.
 
-### Paso 3: Agrega una base de datos MongoDB
+### Step 3: Add a MongoDB Database
 
-1. Dentro del panel de tu proyecto en Railway, haz clic en "New" y selecciona "Database".
-2. Selecciona "MongoDB".
-3. Espera a que se cree la base de datos.
+1. In your Railway project dashboard, click "New" and select "Database".
+2. Select "MongoDB".
+3. Wait for the database to be created.
 
-### Paso 4: Configura las variables de entorno
+### Step 4: Configure Environment Variables
 
-1. En tu proyecto de Railway, selecciona la pestaña "Variables".
-2. Agrega las siguientes variables de entorno:
-   - `MONGODB_URI`: Railway te proporcionará automáticamente esta variable después de crear la base de datos.
-   - `BASE_URL`: Establece la URL de tu aplicación desplegada (será proporcionada por Railway).
+1. In your Railway project, select the "Variables" tab.
+2. Add the following environment variables:
+   - `MONGODB_URI`: Railway will automatically provide this variable after creating the database.
+   - `BASE_URL`: Set to your deployed application URL (will be provided by Railway).
 
-### Paso 5: Verifica el despliegue
+### Step 5: Verify Deployment
 
-1. Una vez que el despliegue se haya completado, Railway te proporcionará una URL.
-2. Visita esa URL para verificar que tu aplicación se ha desplegado correctamente.
+1. Once the deployment is complete, Railway will provide you with a URL.
+2. Visit that URL to verify that your application has been deployed correctly.
 
-## Estructura del proyecto
+## Project Structure
 
 ```
 /
 ├── src/
-│   ├── app/               # Páginas y rutas de la aplicación 
-│   ├── components/        # Componentes reutilizables
-│   ├── data/              # Datos de ejemplo
-│   ├── lib/               # Utilidades y conexión a la base de datos
-│   └── models/            # Modelos de MongoDB
-├── public/                # Archivos estáticos
-└── ...                    # Archivos de configuración
+│   ├── app/               # Application pages and routes
+│   ├── components/        # Reusable components
+│   ├── data/             # Sample data
+│   ├── lib/              # Utilities and database connection
+│   └── models/           # MongoDB models
+├── public/               # Static files
+└── ...                   # Configuration files
 ```
 
-## Recursos adicionales
+## Additional Resources
 
-- [Documentación de Next.js](https://nextjs.org/docs)
-- [Documentación de MongoDB](https://docs.mongodb.com/)
-- [Guía de Railway](https://docs.railway.app/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [Railway Guide](https://docs.railway.app/)
