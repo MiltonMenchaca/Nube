@@ -15,6 +15,7 @@ export async function seedDatabase() {
       
       // Eliminar el id antes de insertar para que MongoDB genere sus propios IDs
       const productsToInsert = initialProducts.map(product => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id, ...rest } = product;
         return rest;
       });

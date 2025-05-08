@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "set NEXT_TELEMETRY_DISABLED=1 && set NEXT_DIST_DIR=C:/temp/.next && next build --no-lint",
     "start": "next start",
     "lint": "next lint"
   },

@@ -1,6 +1,52 @@
-# Tienda Next.js con MongoDB
+# TiendaNext
 
-Aplicación de tienda en línea desarrollada con Next.js 15 y MongoDB. Esta aplicación permite gestionar productos con operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
+Tienda en línea desarrollada con Next.js, React y TypeScript.
+
+## Despliegue en GitHub Pages
+
+Este proyecto está configurado para desplegarse automáticamente en GitHub Pages. Para configurar el despliegue:
+
+1. Ve a la configuración de tu repositorio en GitHub
+2. Navega a "Pages" en el menú lateral
+3. En "Build and deployment":
+   - Source: Selecciona "GitHub Actions"
+   - Branch: Selecciona "main"
+
+## Desarrollo Local
+
+```bash
+# Instalar dependencias
+npm install
+
+# Ejecutar en modo desarrollo
+npm run dev
+
+# Construir para producción
+npm run build
+
+# Iniciar servidor de producción
+npm run start
+```
+
+## Tecnologías Utilizadas
+
+- Next.js 15.3.0
+- React 19
+- TypeScript
+- MongoDB
+- Tailwind CSS
+
+## Estructura del Proyecto
+
+```
+src/
+├── app/            # Rutas y páginas de la aplicación
+├── components/     # Componentes reutilizables
+├── models/         # Modelos de datos para MongoDB
+├── lib/            # Utilidades y funciones auxiliares
+├── data/           # Datos estáticos/iniciales
+└── middleware.ts   # Middleware de la aplicación
+```
 
 ## Características
 
@@ -26,12 +72,7 @@ git clone <url-de-tu-repositorio>
 cd my-app
 ```
 
-2. Instala las dependencias
-```bash
-npm install
-```
-
-3. Crea un archivo `.env.local` con las siguientes variables:
+2. Crea un archivo `.env.local` con las siguientes variables:
 ```
 MONGODB_URI=mongodb://localhost:27017/tiendanext
 BASE_URL=http://localhost:3000
@@ -87,13 +128,6 @@ npm run dev
 ├── public/                # Archivos estáticos
 └── ...                    # Archivos de configuración
 ```
-
-## Tecnologías utilizadas
-
-- **Frontend**: Next.js, React, Tailwind CSS
-- **Backend**: API Routes de Next.js
-- **Base de datos**: MongoDB
-- **Despliegue**: Railway
 
 ## Recursos adicionales
 
