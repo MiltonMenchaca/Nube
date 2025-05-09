@@ -1,30 +1,28 @@
-'use client';
-
 import { products as baseProducts } from '@/data/products';
-import EditProductForm from '@/components/EditProductForm';
-import { useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import EditProductPageClient from './EditProductPageClient';
 
-export default function EditProductPage() {
-  const router = useRouter();
-  const params = useParams<{ id: string }>();
+// Definir la interfaz Product para generateStaticParams
+interface Product {
+  id?: number;
+  _id?: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  features: string[];
+}
 
-  useEffect(() => {
-    if (params && params.id) {
-      const product = baseProducts.find(p => p.id === parseInt(params.id));
-      if (!product) {
-        router.push('/404');
-      }
-    } else {
-      // Opcional: manejar el caso donde params.id no está disponible inmediatamente
-      // podrías redirigir a /404 o mostrar un estado de carga diferente.
-      // router.push('/404'); 
-    }
-  }, [params, router]);
+// Esta función le dice a Next.js qué valores de `id` debe generar en build time
+export function generateStaticParams() {
+  return baseProducts
+    .filter((product: Product) => product.id !== undefined)
+    .map((product) => ({
+      id: product.id!.toString(),
+    }));
+}
 
-  if (!params || !params.id) {
-    return <p>Cargando...</p>;
-  }
-
-  return <EditProductForm params={{ id: params.id }} />;
+// Este es un Server Component que simplemente pasa params.id al Client Component
+export default function EditProductPage({ params }: { params: { id: string } }) {
+  return <EditProductPageClient id={params.id} />;
 } 

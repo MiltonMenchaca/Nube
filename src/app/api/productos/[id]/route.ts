@@ -1,80 +1,111 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { products as baseProducts } from '@/data/products';
 import connectDB from '@/lib/db';
 import Product from '@/models/Product';
 
-// GET - Obtener un producto por su ID
-export async function GET(request: NextRequest) {
+// Interfaz para el producto, consistente con la usada en las páginas
+interface ProductInterface {
+  id?: number;
+  _id?: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  features: string[];
+}
+
+export const dynamic = 'force-static';
+
+export async function generateStaticParams() {
+  return baseProducts
+    .filter((product: ProductInterface) => typeof product.id === 'number')
+    .map((product: ProductInterface) => ({
+      id: product.id!.toString(),
+    }));
+}
+
+// GET - Obtener un producto por su ID (para exportación estática, usa baseProducts)
+export async function GET(
+  _request: NextRequest, // Nombrada con _ ya que no se usa directamente
+  { params }: { params: { id: string } }
+) {
   try {
-    const id = request.nextUrl.pathname.split('/').pop();
-    await connectDB();
-    const product = await Product.findById(id);
-    
+    const productId = parseInt(params.id);
+    const product = baseProducts.find((p: ProductInterface) => p.id === productId);
+
     if (!product) {
-      return Response.json(
-        { error: 'Product not found' },
+      return NextResponse.json(
+        { error: 'Product not found in baseProducts for static export' },
         { status: 404 }
       );
     }
-
-    return Response.json(product);
+    return NextResponse.json(product);
   } catch (error) {
-    console.error('Error fetching product:', error);
-    return Response.json(
-      { error: 'Error fetching product' },
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error in static GET /api/productos/[id]:', errorMessage);
+    return NextResponse.json(
+      { error: `Error fetching product for static export: ${errorMessage}` },
       { status: 500 }
     );
   }
 }
 
 // PUT - Actualizar un producto por su ID
-export async function PUT(request: NextRequest) {
+// Este manejador usa MongoDB y no se espera que funcione en GitHub Pages.
+// Se mantiene para otros entornos de despliegue.
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const id = request.nextUrl.pathname.split('/').pop();
     const body = await request.json();
-    await connectDB();
-    
-    const product = await Product.findByIdAndUpdate(
-      id,
+    await connectDB(); // Esta llamada podría fallar en el build de GH si MONGODB_URI no está o es inválido
+    const updatedProduct = await Product.findByIdAndUpdate(
+      params.id,
       body,
       { new: true, runValidators: true }
     );
 
-    if (!product) {
-      return Response.json(
-        { error: 'Product not found' },
+    if (!updatedProduct) {
+      return NextResponse.json(
+        { error: 'Product not found in DB for PUT' },
         { status: 404 }
       );
     }
-
-    return Response.json(product);
+    return NextResponse.json(updatedProduct);
   } catch (error) {
-    console.error('Error updating product:', error);
-    return Response.json(
-      { error: 'Error updating product' },
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error in PUT /api/productos/[id]:', errorMessage);
+    return NextResponse.json(
+      { error: `Error updating product: ${errorMessage}` },
       { status: 500 }
     );
   }
 }
 
 // DELETE - Eliminar un producto por su ID
-export async function DELETE(request: NextRequest) {
+// Este manejador usa MongoDB y no se espera que funcione en GitHub Pages.
+export async function DELETE(
+  _request: NextRequest, // Nombrada con _ ya que no se usa directamente
+  { params }: { params: { id: string } }
+) {
   try {
-    const id = request.nextUrl.pathname.split('/').pop();
-    await connectDB();
-    const product = await Product.findByIdAndDelete(id);
+    await connectDB(); // Esta llamada podría fallar en el build de GH si MONGODB_URI no está o es inválido
+    const deletedProduct = await Product.findByIdAndDelete(params.id);
 
-    if (!product) {
-      return Response.json(
-        { error: 'Product not found' },
+    if (!deletedProduct) {
+      return NextResponse.json(
+        { error: 'Product not found in DB for DELETE' },
         { status: 404 }
       );
     }
-
-    return Response.json({ message: 'Product deleted successfully' });
+    return NextResponse.json({ message: 'Product deleted successfully from DB' });
   } catch (error) {
-    console.error('Error deleting product:', error);
-    return Response.json(
-      { error: 'Error deleting product' },
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error in DELETE /api/productos/[id]:', errorMessage);
+    return NextResponse.json(
+      { error: `Error deleting product: ${errorMessage}` },
       { status: 500 }
     );
   }
